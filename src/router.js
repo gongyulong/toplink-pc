@@ -1,23 +1,18 @@
+// 导入了 vue
 import Vue from 'vue'
+// 导入了第三方包 vue-router
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// 导入 useElement
+import UseElement from './views/useElement/index'
 
+// 使用路由
 Vue.use(Router)
 
+// 创建并且导出一个 Router 对象
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
-  ]
+  routes: [{
+    name: 'useElement',
+    path: '/useElement',
+    component: UseElement
+  }]
 })
