@@ -21,7 +21,7 @@
               </el-col>
               <!-- 列 -->
               <el-col :span="8" :offset="2">
-                <el-button class="colbtn">获取验证码</el-button>
+                <el-button class="colBtn" @click="getCode">获取验证码</el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -108,6 +108,20 @@ export default {
         console.log(err)
         // 这是一条错误消息提示
         this.$message.error('手机号或验证码错误')
+      })
+    },
+    // 验证手机号码是否存在
+    getCode () {
+      // 获取 form 表单
+      // validateField(field, callback)
+      // field: 要验证的字段
+      // callback：验证后的回调函数
+      this.$refs['form'].validateField('mobile', errMsg => {
+        if (errMsg.trim().length > 0) {
+          // 说明验证不通过
+        } else {
+          console.log('验证通过')
+        }
       })
     }
   }
