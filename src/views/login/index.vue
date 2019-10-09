@@ -25,6 +25,11 @@
               </el-col>
             </el-row>
           </el-form-item>
+          <el-form-item  prop="read" class="readPro">
+            <el-checkbox v-model="form.read" name="type">
+              我已阅读并同意<a href="#">用户协议</a>和<a href="#">隐私条款</a>
+            </el-checkbox>
+          </el-form-item>
           <el-form-item>
               <el-button class="loginbtn" type="primary" @click="login" :loading="loginloading">登录</el-button>
           </el-form-item>
@@ -41,7 +46,8 @@ export default {
     return {
       form: {
         mobile: '',
-        code: ''
+        code: '',
+        read: false
       },
       // 控制加载的显示
       loginloading: false,
@@ -54,6 +60,12 @@ export default {
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
           { min: 6, max: 6, message: '长度必须为6', trigger: 'blur' }
+        ],
+        read: [
+          // 限制结果为 true: 正则
+          // pattern: 设置一个正则规则
+          // pattern: /true/ 只能匹配到结果为 true
+          { pattern: /true/, message: '请先阅读用户协议', trigger: 'change' }
         ]
       }
     }
@@ -122,6 +134,9 @@ export default {
     }
     .colbtn {
       width: 100%;
+    }
+    .readPro a{
+      text-decoration: none;
     }
   }
 }
