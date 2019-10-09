@@ -26,7 +26,7 @@
             </el-row>
           </el-form-item>
           <el-form-item>
-              <el-button class="loginbtn" type="primary" @click="login">登录</el-button>
+              <el-button class="loginbtn" type="primary" @click="login" :loading="loginloading">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -43,6 +43,8 @@ export default {
         mobile: '',
         code: ''
       },
+      // 控制加载的显示
+      loginloading: false,
       // 定义规则
       rules: {
         mobile: [
@@ -73,12 +75,17 @@ export default {
     },
     // 数据的提交
     submitData () {
+      // 发送请求前，将加载状态设置为 true
+      this.loginloading = true
       axios({
         url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
         method: 'POST',
         data: this.form
       }).then(res => {
         // console.log(res)
+        // 将加载状态设置为 false
+        this.loginloading = false
+        // 跳转到主页
         this.$router.push('/')
         // 这是一条成功消息提示
         this.$message({
