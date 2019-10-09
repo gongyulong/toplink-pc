@@ -34,6 +34,8 @@
 </template>
 
 <script>
+// 导入axios
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -55,6 +57,7 @@ export default {
     }
   },
   methods: {
+    // 用户的登录
     login () {
       // 得到 el-form 元素
       // validate: 验证当前表单元素中所有的规则
@@ -62,10 +65,30 @@ export default {
         // 如果 valid 为 true 说明验证通过
         // 如果 valid 为 false 说明验证不通过
         if (valid) {
-          console.log('验证通过')
+          this.submitData()
         } else {
           // 结束当前方法
         }
+      })
+    },
+    // 数据的提交
+    submitData () {
+      axios({
+        url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+        method: 'POST',
+        data: this.form
+      }).then(res => {
+        // console.log(res)
+        this.$router.push('/')
+        // 这是一条成功消息提示
+        this.$message({
+          message: '登录成功',
+          type: 'success'
+        })
+      }).catch(err => {
+        console.log(err)
+        // 这是一条错误消息提示
+        this.$message.error('手机号或验证码错误')
       })
     }
   }
