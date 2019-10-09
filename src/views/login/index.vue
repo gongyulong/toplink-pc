@@ -21,7 +21,10 @@
               </el-col>
               <!-- 列 -->
               <el-col :span="8" :offset="2">
-                <el-button class="colBtn" @click="getCode">获取验证码</el-button>
+                <!-- timer: 2 (定时器的标识) 定时器开启 timer: null 定时器关闭 -->
+                <el-button class="colBtn" @click="getCode" :disabled="!!timer">
+                  {{ timer ? `${codeTime}s后获取`: '获取验证码'  }}
+                </el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -67,7 +70,11 @@ export default {
           // pattern: /true/ 只能匹配到结果为 true
           { pattern: /true/, message: '请先阅读用户协议', trigger: 'change' }
         ]
-      }
+      },
+      // 验证码倒计时
+      codeTime: 10,
+      // 设置一个定时器
+      timer: null
     }
   },
   methods: {
@@ -120,7 +127,18 @@ export default {
         if (errMsg.trim().length > 0) {
           // 说明验证不通过
         } else {
-          console.log('验证通过')
+          // console.log('验证通过')
+          this.timer = setInterval(() => {
+            this.codeTime--
+            // 当时间为 0 时，需要将定时器清除
+            if (this.codeTime < 0) {
+              clearInterval(this.timer)
+              // 重置倒计时
+              this.codeTime = 10
+              // 将定时器重置为 null
+              this.timer = null
+            }
+          }, 1000)
         }
       })
     }
