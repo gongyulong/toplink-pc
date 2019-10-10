@@ -16,7 +16,7 @@ import Publish from '@/views/publish'
 Vue.use(Router)
 
 // 创建并且导出一个 Router 对象
-export default new Router({
+let router = new Router({
   routes: [
     // 设置路由选项
     {
@@ -52,3 +52,20 @@ export default new Router({
     }
   ]
 })
+// 给路由对象添加导航守卫：全局前置导航守卫
+router.beforeEach((to, from, next) => {
+  // 排除跳转到登录页面
+  if (to.path !== '/login') {
+    // 得到 localstorage 中的 userInfo
+    let userInfo = window.localStorage.getItem('userInfo')
+    // 判断用户是否登录：
+    if (!userInfo) {
+      router.push('/login')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+export default router
