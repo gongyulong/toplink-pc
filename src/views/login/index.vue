@@ -101,9 +101,14 @@ export default {
         method: 'POST',
         data: this.form
       }).then(res => {
-        // console.log(res)
+        console.log(res)
         // 将加载状态设置为 false
         this.loginloading = false
+        // 得到用户信息
+        let userInfo = res.data.data
+        // 将用户的信息保存到 localstorage 中
+        window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
+
         // 跳转到主页
         this.$router.push('/')
         // 这是一条成功消息提示
