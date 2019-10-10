@@ -1,13 +1,41 @@
 <template>
- <div class="appheader">header</div>
+  <div class="appheader">
+    <el-row>
+      <el-col :span="14">深圳云之梦科技有限公司</el-col>
+      <el-col :offset="7" :span="3">
+        <el-dropdown trigger="click">
+          <span class="el-dropdown-link userinfo">
+            <img class="icon" src="http://toutiao.meiduo.site/FooXtzfvHZvDCyh1CwhsoMsSH_Op" alt />
+            <span class="name">小明</span>
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>个人信息</el-dropdown-item>
+            <el-dropdown-item>git地址</el-dropdown-item>
+            <el-dropdown-item>退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
-
-<style>
-
+<style lang='less' scoped>
+.userinfo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+}
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
 </style>

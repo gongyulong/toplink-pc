@@ -6,7 +6,7 @@
     </div>
     <!-- 导航菜单栏 -->
     <el-menu :router="true" :unique-opened="true" default-active="2" class="el-menu-vertical-demo" background-color="#353b4e" text-color="#ccc" active-text-color="#409eff">
-      <el-menu-item index="1">
+      <el-menu-item index="/home">
         <span slot="title">首页</span>
       </el-menu-item>
       <el-submenu index="2">
@@ -54,5 +54,15 @@
 export default {}
 </script>
 
-<style>
+<style lang='less' scoped>
+.logo {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    img {
+        width: 120px;
+    }
+}
 </style>
