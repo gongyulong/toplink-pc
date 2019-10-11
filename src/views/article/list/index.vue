@@ -73,8 +73,8 @@
 </template>
 
 <script>
-// 获取token
-let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+// 获取token(请求拦截器中已经获取)
+// let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
 export default {
   data () {
     return {
@@ -94,10 +94,10 @@ export default {
       // 这个请求如果不带 token 返回 401
       this.$http({
         url: '/articles',
-        methods: 'get',
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`
-        }
+        methods: 'get'
+        // headers: {
+        //   Authorization: `Bearer ${userInfo.token}`
+        // }
       })
         .then(res => {
           // console.log(res);
