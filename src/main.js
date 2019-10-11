@@ -11,6 +11,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 导入全局样式
 import '@/style/index.less'
+// 导入全局axios
+import axios from 'axios'
+
+// axios挂载到vue原型
+Vue.prototype.$http = axios
+
+// axios 设置基准地址
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
 Vue.use(ElementUI)
 

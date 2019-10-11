@@ -43,7 +43,7 @@
 
 <script>
 // 导入axios
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data () {
     return {
@@ -96,8 +96,8 @@ export default {
     submitData () {
       // 发送请求前，将加载状态设置为 true
       this.loginloading = true
-      axios({
-        url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+      this.$http({
+        url: '/authorizations',
         method: 'POST',
         data: this.form
       }).then(res => {
