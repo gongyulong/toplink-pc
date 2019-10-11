@@ -36,6 +36,16 @@ axios.interceptors.request.use(config => {
   return Promise.reject(err)
 })
 
+// 响应拦截器：当服务器响应信息回来时执行
+axios.interceptors.response.use(response => {
+  // 如果要响应正常返回必须返回 response
+  // console.log(response)
+  return response.data.data
+}, err => {
+  // 请求异常时的逻辑
+  return Promise.reject(err)
+})
+
 Vue.use(ElementUI)
 
 // 设置当前项目的模式：当前模式为 开发模式

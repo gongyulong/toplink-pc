@@ -95,6 +95,7 @@ export default {
       this.$http({
         url: '/articles',
         methods: 'get'
+        // axios发送请求 中使用请求拦截器动态设置 token
         // headers: {
         //   Authorization: `Bearer ${userInfo.token}`
         // }
@@ -102,11 +103,15 @@ export default {
         .then(res => {
           // console.log(res);
           // 将数据源保存到 dataList 中
-          this.dataList = res.data.data.results
+          // this.dataList = res.data.data.results
+
+          // 响应拦截器--》处理响应数据  res.data.data
+          this.dataList = res.results
           // console.log(this.dataList);
 
           // 数据的总条数进行保存
-          this.totalCount = res.data.data.total_count
+          // this.totalCount = res.data.data.total_count
+          this.totalCount = res.total_count
         })
         .catch(err => {
           console.log(err)
