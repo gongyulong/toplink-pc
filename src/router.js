@@ -11,6 +11,9 @@ import Home from '@/views/home'
 import Layout from '@/views/layout'
 // 导入publish
 import Publish from '@/views/publish'
+// 导入nprogress
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 // 使用路由
 Vue.use(Router)
@@ -39,11 +42,14 @@ let router = new Router({
       path: '/layout',
       name: 'layout',
       component: Layout,
+      // 添加它的子路由：
       children: [
+        // 将 home 作为 layout 的子路由存在
         {
           path: '/home',
           component: Home
         },
+        // 添加一个 publish 路由
         {
           path: '/publish',
           component: Publish
@@ -54,6 +60,8 @@ let router = new Router({
 })
 // 给路由对象添加导航守卫：全局前置导航守卫
 router.beforeEach((to, from, next) => {
+  // 开启进度条
+  nprogress.start()
   // 排除跳转到登录页面
   if (to.path !== '/login') {
     // 得到 localstorage 中的 userInfo
@@ -67,5 +75,13 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+// 全局后置钩子守卫
+router.afterEach((to, from) => {
+  // 关闭进度条
+  setTimeout(() => {
+    nprogress.done()
+  }, 1000)
 })
 export default router
