@@ -16,7 +16,7 @@
         <el-menu-item index="/publish">
           <span slot="title">发布文章</span>
         </el-menu-item>
-        <el-menu-item index="2-2">
+        <el-menu-item index="/article/list">
           <span slot="title">内容列表</span>
         </el-menu-item>
         <el-menu-item index="2-3">

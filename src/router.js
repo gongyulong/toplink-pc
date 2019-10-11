@@ -14,6 +14,8 @@ import Publish from '@/views/publish'
 // 导入nprogress
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+// 导入article
+import Article from '@/views/article/list'
 
 // 使用路由
 Vue.use(Router)
@@ -53,6 +55,11 @@ let router = new Router({
         {
           path: '/publish',
           component: Publish
+        },
+        // 添加一个 article 路由
+        {
+          path: '/article/list',
+          component: Article
         }
       ]
     }
@@ -80,8 +87,6 @@ router.beforeEach((to, from, next) => {
 // 全局后置钩子守卫
 router.afterEach((to, from) => {
   // 关闭进度条
-  setTimeout(() => {
-    nprogress.done()
-  }, 1000)
+  nprogress.done()
 })
 export default router
