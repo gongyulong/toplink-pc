@@ -30,7 +30,7 @@ export default {
   created () {
     // 从 localstorage 中取出 userInfo
     this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
-    console.log(this.userInfo)
+    // console.log(this.userInfo)
   }
 }
 </script>

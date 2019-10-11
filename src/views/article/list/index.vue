@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 顶部搜索选项区域 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>全部图文</span>
@@ -31,19 +32,49 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
+    <!-- 文章显示区域 -->
+    <el-card class="box-card mycard">
+      <div slot="header" class="clearfix">
+        <span>共找到56947条符合条件的内容</span>
+      </div>
+      <!-- 表格区域 -->
+      <!-- el-table: 表格组件 data：指定表格的数据源 -->
+      <el-table :data="dataList" style="width: 100%" :stripe="true" :border="true">
+        <el-table-column label="图片" width="180">
+          <!-- scope.row 是当前行的数据源 -->
+          <template slot-scope="scope">
+            <img class="myimg" :src="scope.row.cover.images[0]" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="title" label="标题" width="180"></el-table-column>
+        <el-table-column prop="status" label="状态" width="180">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status === 0">草稿</span>
+            <span v-if="scope.row.status === 1">待审核</span>
+            <span v-if="scope.row.status === 2">审核通过</span>
+            <span v-if="scope.row.status === 3">审核失败</span>
+            <span v-if="scope.row.status === 4">已删除</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="pubdate" label="发布日期" width="180">
+
+        </el-table-column>
+        <el-table-column label="操作">
+          <template>
+            <el-button size="mini" round><i class="el-icon-edit"></i>修改</el-button>
+            <el-button size="mini" round><i class="el-icon-delete"></i>删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
+       <!-- 分页区域 -->
+       <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
     </el-card>
   </div>
-
-  <!-- 文章显示区域 -->
 </template>
 
 <script>
+// 获取token
+let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
 export default {
   data () {
     return {
@@ -51,17 +82,50 @@ export default {
         region: '',
         resource: ''
       },
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }
-      ]
+      // 保存文章列表数据
+      dataList: [],
+      // 文章的总条数
+      totalCount: 0
     }
+  },
+  methods: {
+    // 打开页面,请求文章列表的数据
+    getArticleList () {
+      // 这个请求如果不带 token 返回 401
+      this.$http({
+        url: '/articles',
+        methods: 'get',
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      })
+        .then(res => {
+          // console.log(res);
+          // 将数据源保存到 dataList 中
+          this.dataList = res.data.data.results
+          // console.log(this.dataList);
+
+          // 数据的总条数进行保存
+          this.totalCount = res.data.data.total_count
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created () {
+    this.getArticleList()
   }
 }
 </script>
 
-<style>
+<style leang='less' scoped>
+.mycard {
+  margin-top: 20px;
+}
+
+.myimg {
+  width: 150px;
+  height: 100px;
+}
 </style>
