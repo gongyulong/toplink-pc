@@ -104,8 +104,8 @@ export default {
         // console.log(res)
         // 将加载状态设置为 false
         this.loginloading = false
-        // 得到用户信息
-        let userInfo = res.data.data
+        // 得到用户信息(使用响应拦截器统一处理响应数据response.data.data)
+        let userInfo = res
         // 将用户的信息保存到 localstorage 中
         window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
 
