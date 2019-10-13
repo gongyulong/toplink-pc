@@ -8,23 +8,34 @@
       <!-- 添加一些 form 表单 -->
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="文章状态">
-            <!-- {{ status }} -->
-            <el-radio v-model="status" label="">全部</el-radio>
-            <el-radio v-model="status" label="0">草稿</el-radio>
-            <el-radio v-model="status" label="1">待审核</el-radio>
-            <el-radio v-model="status" label="2">审核通过</el-radio>
-            <el-radio v-model="status" label="3">审核失败</el-radio>
+          <!-- {{ status }} -->
+          <el-radio v-model="status" label>全部</el-radio>
+          <el-radio v-model="status" label="0">草稿</el-radio>
+          <el-radio v-model="status" label="1">待审核</el-radio>
+          <el-radio v-model="status" label="2">审核通过</el-radio>
+          <el-radio v-model="status" label="3">审核失败</el-radio>
         </el-form-item>
         <el-form-item label="频道列表">
-            <!-- {{form.channelid}} -->
+          <!-- {{form.channelid}} -->
           <el-select v-model="form.channelid" placeholder="请选择活动区域" clearable>
-            <el-option v-for="(item,index) in channelsList" :key="index" :label="item.name" :value="item.id"></el-option>
+            <el-option
+              v-for="(item,index) in channelsList"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="时间选择" >
+        <el-form-item label="时间选择">
           <!-- {{dateTime}} -->
-          <el-date-picker value-format="yyyy-MM-dd" v-model="dateTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
+          <el-date-picker
+            value-format="yyyy-MM-dd"
+            v-model="dateTime"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
         </el-form-item>
         <!-- 搜索按钮 -->
         <el-form-item>
@@ -39,7 +50,13 @@
       </div>
       <!-- 表格区域 -->
       <!-- el-table: 表格组件 data：指定表格的数据源 -->
-      <el-table :data="dataList" style="width: 100%" :stripe="true" :border="true" v-loading="loading">
+      <el-table
+        :data="dataList"
+        style="width: 100%"
+        :stripe="true"
+        :border="true"
+        v-loading="loading"
+      >
         <el-table-column label="图片" width="180">
           <!-- scope.row 是当前行的数据源 -->
           <template slot-scope="scope">
@@ -60,9 +77,9 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" round>
-              <i class="el-icon-edit" ></i>修改
+              <i class="el-icon-edit"></i>修改
             </el-button>
-            <el-button size="mini" round  @click="delArticle(scope.row.id)">
+            <el-button size="mini" round @click="delArticle(scope.row.id)">
               <i class="el-icon-delete"></i>删除
             </el-button>
           </template>
@@ -160,11 +177,25 @@ export default {
     },
     // 删除文章列表数据
     delArticle (id) {
-      this.$http({
-        url: `/articles/${id}`,
-        methods: 'DELETE'
-      }).then(res => {
-        console.log(res)
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 将数据进行删除
+        this.$http({
+          url: `/articles/${id}`,
+          method: 'DELETE'
+        }).then(res => {
+          console.log(res) // undefined:说明删除成功了
+          // 需要重新请求数据
+          this.searchList()
+          // 提示删除成功
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+        })
       })
     },
     // 获取频道数据

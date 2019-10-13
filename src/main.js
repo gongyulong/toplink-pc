@@ -19,11 +19,18 @@ import JSONBig from 'json-bigint'
 import axios from 'axios'
 
 // 对服务器响应给 axios 的数据进行 bigint 的处理
-axios.defaults.transformResponse = [ data => {
-  // 这个 data 就是纯粹的服务器响应给 axios 的数据
-  // 在 return 之前要进行转换
-  return JSONBig.parse(data)
-}]
+axios.defaults.transformResponse = [
+  data => {
+    try {
+      // 这个 data 就是纯粹的服务器响应给 axios 的数据
+      // 在 return 之前要进行转换
+      return JSONBig.parse(data) // 报错的原因：因为删除数据后，接口返回的数据为空，无法进行 JSONBig 的转换
+    } catch (err) {
+      console.log(err)
+      return data
+    }
+  }
+]
 // axios挂载到vue原型
 Vue.prototype.$http = axios
 // axios 设置基准地址
