@@ -35,7 +35,7 @@
     <!-- 文章显示区域 -->
     <el-card class="box-card mycard">
       <div slot="header" class="clearfix">
-        <span>共找到56947条符合条件的内容</span>
+        <span>共找到{{ totalCount }}条符合条件的内容</span>
       </div>
       <!-- 表格区域 -->
       <!-- el-table: 表格组件 data：指定表格的数据源 -->
@@ -67,7 +67,7 @@
         </el-table-column>
       </el-table>
        <!-- 分页区域 -->
-       <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+       <el-pagination background layout="prev, pager, next" :total="totalCount" @prev-click="prevClick" @next-click="nextClick" @current-change="pageChange"></el-pagination>
     </el-card>
   </div>
 </template>
@@ -85,7 +85,12 @@ export default {
       // 保存文章列表数据
       dataList: [],
       // 文章的总条数
-      totalCount: 0
+      totalCount: 0,
+      // 分页页码
+      page: 1,
+      // 每一页条数
+      per_page: 20
+
     }
   },
   methods: {
@@ -94,11 +99,15 @@ export default {
       // 这个请求如果不带 token 返回 401
       this.$http({
         url: '/articles',
-        methods: 'get'
+        methods: 'get',
         // axios发送请求 中使用请求拦截器动态设置 token
         // headers: {
         //   Authorization: `Bearer ${userInfo.token}`
         // }
+        params: {
+          page: this.page,
+          per_page: this.per_page
+        }
       })
         .then(res => {
           // console.log(res);
@@ -116,6 +125,22 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    // 用户点击上一页按钮改变当前页后触发
+    prevClick () {
+      this.page = this.page - 1
+      this.getArticleList()
+    },
+    // 用户点击下一页按钮改变当前页后触发
+    nextClick () {
+      this.page = this.page + 1
+      this.getArticleList()
+    },
+    // currentPage 改变时会触发
+    pageChange (page) {
+      // console.log('当前页码' + page)
+      this.page = page
+      this.getArticleList()
     }
   },
   created () {
