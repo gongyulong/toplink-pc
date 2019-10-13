@@ -8,26 +8,27 @@
       <!-- 添加一些 form 表单 -->
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="文章状态">
-          <el-checkbox-group v-model="form.type">
-            <el-radio label="全部"></el-radio>
-            <el-radio label="草稿"></el-radio>
-            <el-radio label="待审核"></el-radio>
-            <el-radio label="审核通过"></el-radio>
-            <el-radio label="审核失败"></el-radio>
-          </el-checkbox-group>
+            <!-- {{ status }} -->
+            <el-radio v-model="status" label="">全部</el-radio>
+            <el-radio v-model="status" label="0">草稿</el-radio>
+            <el-radio v-model="status" label="1">待审核</el-radio>
+            <el-radio v-model="status" label="2">审核通过</el-radio>
+            <el-radio v-model="status" label="3">审核失败</el-radio>
         </el-form-item>
         <el-form-item label="频道列表">
-          <el-select v-model="form.channelid" placeholder="请选择活动区域">
+            <!-- {{form.channelid}} -->
+          <el-select v-model="form.channelid" placeholder="请选择活动区域" clearable>
             <el-option v-for="(item,index) in channelsList" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="时间选择">
-          <el-date-picker
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          ></el-date-picker>
+        <el-form-item label="时间选择" >
+          <!-- {{dateTime}} -->
+          <el-date-picker value-format="yyyy-MM-dd" v-model="dateTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
+        <!-- 搜索按钮 -->
+        <el-form-item>
+          <el-button @click="searchList">搜索</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -88,6 +89,7 @@ export default {
   data () {
     return {
       form: {
+        // 频道数据
         channelid: '',
         resource: ''
       },
@@ -98,11 +100,15 @@ export default {
       // 分页页码
       page: 1,
       // 每一页条数
-      per_page: 20,
+      per_page: 10,
       // 控制表格的加载效果
       loading: false,
       // 得到频道的数据源
-      channelsList: []
+      channelsList: [],
+      // 筛选的状态属性： 0 , 1, 2, 3 没有内容
+      status: '',
+      // 开始&结束的时间
+      dateTime: []
     }
   },
   methods: {
@@ -121,29 +127,19 @@ export default {
           // }
           params: {
             page: this.page,
-            per_page: this.per_page,
-            status: 0,
-            channel_id: 3
+            per_page: this.per_page
           }
+        }).then(res => {
+          // console.log(res);
+          // 将数据源保存到 dataList 中
+          this.dataList = res.results
+
+          // 数据的总条数进行保存
+          this.totalCount = res.total_count
+
+          // 关闭加载动画
+          this.loading = false
         })
-          .then(res => {
-            // console.log(res);
-            // 将数据源保存到 dataList 中
-            // this.dataList = res.data.data.results
-
-            // 响应拦截器--》处理响应数据  res.data.data
-            this.dataList = res.results
-            // console.log(this.dataList);
-
-            // 数据的总条数进行保存
-            // this.totalCount = res.data.data.total_count
-            this.totalCount = res.total_count
-            // 关闭加载动画
-            this.loading = false
-          })
-          .catch(err => {
-            console.log(err)
-          })
       }, 1000)
     },
     // 用户点击上一页按钮改变当前页后触发
@@ -178,13 +174,53 @@ export default {
         url: '/channels',
         method: 'GET'
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.channelsList = res.channels
+      })
+    },
+    // 筛选数据
+    searchList () {
+      // 开启加载动画
+      this.loading = true
+      // 创建一个参数对象
+      let paramsObj = {}
+      // 判断是否存在状态
+      if (this.status) {
+        paramsObj.status = this.status
+      }
+      // 判断是否存在频道数据
+      if (this.channelid) {
+        paramsObj.channel_id = this.form.channelid
+      }
+      // 判断是否存在时间
+      if (this.dateTime !== null && this.dateTime.length !== 0) {
+        paramsObj.begin_pubdate = this.dateTime[0]
+        paramsObj.end_pubdate = this.dateTime[1]
+      }
+      // 获取所有搜索相关的属性
+      this.$http({
+        url: '/articles',
+        methods: 'GET',
+        params: {
+          page: this.page,
+          per_page: this.per_page,
+          ...paramsObj
+        }
+      }).then(res => {
+        // console.log(res)
+        // 将数据保存
+        this.dataList = res.results
+        this.total_count = res.total_count
+        //  关闭加载动画
+        this.loading = false
       })
     }
   },
+  // 生命周期钩子函数
   created () {
+    // 得到文章列表
     this.getArticleList()
+    // 得到频道数据
     this.getChannels()
   }
 }
