@@ -17,9 +17,8 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="频道列表">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="form.channelid" placeholder="请选择活动区域">
+            <el-option v-for="(item,index) in channelsList" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="时间选择">
@@ -89,7 +88,7 @@ export default {
   data () {
     return {
       form: {
-        region: '',
+        channelid: '',
         resource: ''
       },
       // 保存文章列表数据
@@ -101,13 +100,15 @@ export default {
       // 每一页条数
       per_page: 20,
       // 控制表格的加载效果
-      loading: false
+      loading: false,
+      // 得到频道的数据源
+      channelsList: []
     }
   },
   methods: {
     // 打开页面,请求文章列表的数据
     getArticleList () {
-       // 开启加载动画
+      // 开启加载动画
       this.loading = true
       setTimeout(() => {
         // 这个请求如果不带 token 返回 401
@@ -120,7 +121,9 @@ export default {
           // }
           params: {
             page: this.page,
-            per_page: this.per_page
+            per_page: this.per_page,
+            status: 0,
+            channel_id: 3
           }
         })
           .then(res => {
@@ -161,16 +164,28 @@ export default {
     },
     // 删除文章列表数据
     delArticle (id) {
-      this.$http ({
+      this.$http({
         url: `/articles/${id}`,
         methods: 'DELETE'
       }).then(res => {
         console.log(res)
       })
+    },
+    // 获取频道数据
+    getChannels () {
+      // 请求服务器得到数据
+      this.$http({
+        url: '/channels',
+        method: 'GET'
+      }).then(res => {
+        console.log(res)
+        this.channelsList = res.channels
+      })
     }
   },
   created () {
     this.getArticleList()
+    this.getChannels()
   }
 }
 </script>

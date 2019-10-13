@@ -15,15 +15,15 @@ import '@/style/index.less'
 // 导入 json-bigint
 import JSONBig from 'json-bigint'
 
+// 导入全局axios
+import axios from 'axios'
+
 // 对服务器响应给 axios 的数据进行 bigint 的处理
 axios.defaults.transformResponse = [ data => {
   // 这个 data 就是纯粹的服务器响应给 axios 的数据
   // 在 return 之前要进行转换
   return JSONBig.parse(data)
 }]
-
-// 导入全局axios
-import axios from 'axios'
 // axios挂载到vue原型
 Vue.prototype.$http = axios
 // axios 设置基准地址
@@ -49,7 +49,7 @@ axios.interceptors.request.use(config => {
 // 响应拦截器：当服务器响应信息回来时执行
 axios.interceptors.response.use(response => {
   // 如果要响应正常返回必须返回 response
-  console.log(response)
+  // console.log(response)
   return response.data.data
 }, err => {
   // 请求异常时的逻辑
