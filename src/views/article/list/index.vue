@@ -58,11 +58,11 @@
         </el-table-column>
         <el-table-column prop="pubdate" label="发布日期" width="180"></el-table-column>
         <el-table-column label="操作">
-          <template>
+          <template slot-scope="scope">
             <el-button size="mini" round>
-              <i class="el-icon-edit"></i>修改
+              <i class="el-icon-edit" ></i>修改
             </el-button>
-            <el-button size="mini" round>
+            <el-button size="mini" round  @click="delArticle(scope.row.id)">
               <i class="el-icon-delete"></i>删除
             </el-button>
           </template>
@@ -100,13 +100,14 @@ export default {
       page: 1,
       // 每一页条数
       per_page: 20,
-
+      // 控制表格的加载效果
       loading: false
     }
   },
   methods: {
     // 打开页面,请求文章列表的数据
     getArticleList () {
+       // 开启加载动画
       this.loading = true
       setTimeout(() => {
         // 这个请求如果不带 token 返回 401
@@ -134,13 +135,13 @@ export default {
             // 数据的总条数进行保存
             // this.totalCount = res.data.data.total_count
             this.totalCount = res.total_count
-
+            // 关闭加载动画
             this.loading = false
           })
           .catch(err => {
             console.log(err)
           })
-      }, 3000)
+      }, 1000)
     },
     // 用户点击上一页按钮改变当前页后触发
     prevClick () {
@@ -157,6 +158,15 @@ export default {
       // console.log('当前页码' + page)
       this.page = page
       this.getArticleList()
+    },
+    // 删除文章列表数据
+    delArticle (id) {
+      this.$http ({
+        url: `/articles/${id}`,
+        methods: 'DELETE'
+      }).then(res => {
+        console.log(res)
+      })
     }
   },
   created () {
