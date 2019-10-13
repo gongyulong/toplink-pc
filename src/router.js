@@ -20,6 +20,13 @@ import Article from '@/views/article/list'
 // 使用路由
 Vue.use(Router)
 
+// 连续点击相同路由链接会报错是因为vue router 升级到3.1.x 后,如果没有捕获到错误，控制台始终会出现警告。
+// 下面操作就是解决报错问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 // 创建并且导出一个 Router 对象
 let router = new Router({
   routes: [
