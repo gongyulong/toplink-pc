@@ -7,23 +7,23 @@
         <span>发表文章</span>
       </div>
       <!-- 内容区域 -->
-      <el-form :model="ruleForm"  status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="form"  status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="标题">
-          <el-input v-model="ruleForm.title" autocomplete="off"></el-input>
+          <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input v-model="ruleForm.content" autocomplete="off"></el-input>
+          <quill-editor v-model="form.content"></quill-editor>
         </el-form-item>
         <el-form-item label="封面">
           <label>封面暂无</label>
         </el-form-item>
         <el-form-item label="频道">
-          {{ ruleForm.channle_id }}
-          <channleList @tofather="getValue" :mychannel="ruleForm.channle_id" />
+          <!-- {{ form.channel_id }} -->
+          <channleList @sendMsg="getValue" :channelId="form.channel_id" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">发表</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button type="primary" @click="publish('false')">发表</el-button>
+          <el-button @click="publish('true')">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -37,24 +37,27 @@ import channleList from '@/components/channles'
 export default {
   data () {
     return {
-      ruleForm: {
+      form: {
         title: '',
         content: '',
-        channle_id: 2
+        channel_id: 3
       }
     }
   },
   methods: {
+    // 子组件向父组件传参
     getValue (value) {
-      this.ruleForm.channle_id = value
+      this.form.channel_id = value
     }
   },
-  created () {},
   components: {
     channleList // 频道组件
   }
 }
 </script>
 
-<style>
+<style >
+.ql-container.ql-snow {
+  height: 400px;
+}
 </style>

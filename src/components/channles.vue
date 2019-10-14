@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 单独封装一个频道组件 -->
-    <el-select @change="optionChane" :value="mychannel">
+    <el-select @change="optionChange" :value="channelId">
       <el-option
         v-for="(item, index) in channleList"
         :key="index"
@@ -20,8 +20,10 @@ export default {
       value: ''
     }
   },
-  props: ['mychannel'],
+  // 子组件接收父组件参数
+  props: ['channelId'],
   methods: {
+    // 获取频道数据
     getChannlesList () {
       this.$http({
         url: 'channels',
@@ -31,9 +33,10 @@ export default {
       })
     },
     // value：改变后的 options 对应的 value
-    optionChane (value) {
+    optionChange (value) {
       // 将 value 交给父组件
-      this.$emit('tofather', value)
+      // console.log(value)
+      this.$emit('sendMsg', value)
     }
   },
   created () {
