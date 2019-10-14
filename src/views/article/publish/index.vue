@@ -48,6 +48,26 @@ export default {
     // 子组件向父组件传参
     getValue (value) {
       this.form.channel_id = value
+    },
+    // 发表文章按钮
+    publish (draft) {
+      this.$http({
+        url: `/articles?draft=${draft}`,
+        method: 'POST',
+        data: {
+          title: this.form.title,
+          content: this.form.content,
+          channel_id: this.form.channel_id,
+          cover: {
+            type: 1,
+            images: ['http://toutiao.meiduo.site/Fhp5OXHbYJzUdd8pCJGjX4i9K_7y']
+          }
+        }
+      }).then(res => {
+        // console.log(res)
+        // 跳转到内容页
+        this.$router.push('/article/list')
+      })
     }
   },
   components: {
