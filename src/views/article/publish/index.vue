@@ -7,7 +7,7 @@
         <span>发表文章</span>
       </div>
       <!-- 内容区域 -->
-      <el-form :model="form"  status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="form" status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="标题">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
@@ -125,8 +125,24 @@ export default {
       this.getDatabyId()
     }
   },
+  // 频道组件
   components: {
     channleList // 频道组件
+  },
+  // 侦听器
+  watch: {
+    // 路由信息对象
+    $route: function () {
+      console.log('路由发送了跳转')
+      if (this.$route.path.indexOf('publish') !== -1) {
+        // 清除数据
+        this.form = {
+          title: '',
+          content: '',
+          channel_id: ''
+        }
+      }
+    }
   }
 }
 </script>
