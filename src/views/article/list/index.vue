@@ -76,7 +76,7 @@
         <el-table-column prop="pubdate" label="发布日期" width="180"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" round>
+            <el-button size="mini" round @click="update(scope.row.id)">
               <i class="el-icon-edit"></i>修改
             </el-button>
             <el-button size="mini" round @click="delArticle(scope.row.id)">
@@ -187,14 +187,14 @@ export default {
           url: `/articles/${id}`,
           method: 'DELETE'
         }).then(res => {
-          console.log(res) // undefined:说明删除成功了
-          // 需要重新请求数据
-          this.searchList()
+          // console.log(res) // undefined:说明删除成功了
           // 提示删除成功
           this.$message({
             message: '删除成功',
             type: 'success'
           })
+          // 重新请求数据
+          this.searchList()
         })
       })
     },
@@ -245,6 +245,10 @@ export default {
         //  关闭加载动画
         this.loading = false
       })
+    },
+    // 进入修改文章页面
+    update (id) {
+      this.$router.push(`/article/edit/${id}`)
     }
   },
   // 生命周期钩子函数

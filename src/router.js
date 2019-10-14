@@ -67,6 +67,11 @@ let router = new Router({
         {
           path: '/article/list',
           component: Article
+        },
+        // 添加一个 修改文章 的路由
+        {
+          path: '/article/edit/:id',
+          component: Publish
         }
       ]
     }
