@@ -106,7 +106,7 @@ export default {
   data () {
     return {
       form: {
-        // 频道数据
+        // 频道数据id
         channelid: '',
         resource: ''
       },

@@ -33,6 +33,7 @@ axios.defaults.transformResponse = [
 ]
 // axios挂载到vue原型
 Vue.prototype.$http = axios
+
 // axios 设置基准地址
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 
@@ -56,7 +57,9 @@ axios.interceptors.request.use(config => {
 // 响应拦截器：当服务器响应信息回来时执行
 axios.interceptors.response.use(response => {
   // 如果要响应正常返回必须返回 response
+  // console.log('----------------------响应拦截器----------------------')
   // console.log(response)
+  // console.log('----------------------响应拦截器----------------------')
   return response.data.data
 }, err => {
   // 请求异常时的逻辑

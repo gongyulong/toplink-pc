@@ -10,7 +10,7 @@ import Home from '@/views/home'
 // 导入router && home
 import Layout from '@/views/layout'
 // 导入publish
-import Publish from '@/views/publish'
+import Publish from '@/views/article/publish'
 // 导入nprogress
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -60,7 +60,7 @@ let router = new Router({
         },
         // 添加一个 publish 路由
         {
-          path: '/publish',
+          path: '/article/publish',
           component: Publish
         },
         // 添加一个 article 路由
