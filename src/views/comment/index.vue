@@ -5,6 +5,7 @@
       <el-table-column prop="title" label="标题" width="180"></el-table-column>
       <el-table-column label="评论状态" width="180">
         <template slot-scope="scope">
+          <!-- 单选按钮 -->
           <el-tag v-if="scope.row.comment_status === false" type="danger">禁用</el-tag>
           <el-tag v-if="scope.row.comment_status === true" type="success">启用</el-tag>
         </template>

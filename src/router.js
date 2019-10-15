@@ -17,7 +17,9 @@ import 'nprogress/nprogress.css'
 // 导入article
 import Article from '@/views/article/list'
 // 导入comment
-import comment from '@/views/comment'
+import Comment from '@/views/comment'
+// 导入material
+import Material from '@/views/material'
 
 // 使用路由
 Vue.use(Router)
@@ -78,7 +80,12 @@ let router = new Router({
         // 添加一个 评论 的动态路由
         {
           path: '/comment',
-          component: comment
+          component: Comment
+        },
+        // 添加一个 图片管理 的动态路由
+        {
+          path: '/material',
+          component: Material
         }
       ]
     }
