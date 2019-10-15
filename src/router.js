@@ -16,6 +16,8 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 // 导入article
 import Article from '@/views/article/list'
+// 导入comment
+import comment from '@/views/comment'
 
 // 使用路由
 Vue.use(Router)
@@ -68,10 +70,15 @@ let router = new Router({
           path: '/article/list',
           component: Article
         },
-        // 添加一个 修改文章 的路由
+        // 添加一个 修改文章 的动态路由
         {
           path: '/article/edit/:id',
           component: Publish
+        },
+        // 添加一个 评论 的动态路由
+        {
+          path: '/comment',
+          component: comment
         }
       ]
     }

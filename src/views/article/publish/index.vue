@@ -7,7 +7,7 @@
         <span>发表文章</span>
       </div>
       <!-- 内容区域 -->
-      <el-form :model="form" status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="form" status-icon ref="form" label-width="100px" class="demo-ruleForm">
         <el-form-item label="标题">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
@@ -88,6 +88,7 @@ export default {
     },
     // 得到要修改数据 id
     getEditId () {
+      // 组件中-获取动态路由携带的id参数
       this.editId = this.$route.params.id
     },
     // 要根据 id 去服务器中得到 id 对象的数据
