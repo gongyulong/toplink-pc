@@ -107,15 +107,17 @@ export default {
         // 得到用户信息(使用响应拦截器统一处理响应数据response.data.data)
         let userInfo = res
         // 将用户的信息保存到 localstorage 中
-        window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        // window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        // 将 用户信息保存到 vuex
+        this.$store.commit('setUserInfo', userInfo)
 
-        // // 跳转到主页
-        this.$router.push('/')
         // 这是一条成功消息提示
         this.$message({
           message: '登录成功',
           type: 'success'
         })
+        // 跳转到主页
+        this.$router.push('/')
       }).catch(err => {
         console.log(err)
         // 这是一条错误消息提示

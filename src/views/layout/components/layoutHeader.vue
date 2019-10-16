@@ -1,7 +1,7 @@
 <template>
   <div class="appheader">
     <el-row>
-      <el-col :span="14">深圳云之梦科技有限公司</el-col>
+      <el-col :span="14">小牛科技</el-col>
       <el-col :offset="7" :span="3">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo">
@@ -12,7 +12,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>git地址</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item >退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -29,8 +29,10 @@ export default {
   },
   created () {
     // 从 localstorage 中取出 userInfo
-    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    // this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     // console.log(this.userInfo)
+    // 从Vuex 中获取userInfo
+    this.userInfo = this.$store.state.userInfo
   }
 }
 </script>
