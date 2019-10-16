@@ -131,88 +131,6 @@ export default {
   methods: {
     // 打开页面,请求文章列表的数据
     getArticleList () {
-      // 开启加载动画
-      this.loading = true
-      setTimeout(() => {
-        // 这个请求如果不带 token 返回 401
-        this.$http({
-          url: '/articles',
-          methods: 'get',
-          // axios发送请求 中使用请求拦截器动态设置 token
-          // headers: {
-          //   Authorization: `Bearer ${userInfo.token}`
-          // }
-          params: {
-            page: this.page,
-            per_page: this.per_page
-          }
-        }).then(res => {
-          // console.log(res);
-          // 将数据源保存到 dataList 中
-          this.dataList = res.results
-
-          // 数据的总条数进行保存
-          this.totalCount = res.total_count
-
-          // 关闭加载动画
-          this.loading = false
-        })
-      }, 1000)
-    },
-    // 用户点击上一页按钮改变当前页后触发
-    prevClick () {
-      this.page = this.page - 1
-      this.getArticleList()
-    },
-    // 用户点击下一页按钮改变当前页后触发
-    nextClick () {
-      this.page = this.page + 1
-      this.getArticleList()
-    },
-    // currentPage 改变时会触发
-    pageChange (page) {
-      // console.log('当前页码' + page)
-      this.page = page
-      this.getArticleList()
-    },
-    // 删除文章列表数据
-    delArticle (id) {
-      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        // 将数据进行删除
-        this.$http({
-          url: `/articles/${id}`,
-          method: 'DELETE'
-        }).then(res => {
-          // console.log(res) // undefined:说明删除成功了
-          // 提示删除成功
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          // 重新请求数据
-          this.searchList()
-        })
-      })
-    },
-    // 获取频道数据
-    getChannels () {
-      // 请求服务器得到数据
-      this.$http({
-        url: '/channels',
-        method: 'GET'
-      }).then(res => {
-        // console.log(res)
-        this.channelsList = res.channels
-      })
-    },
-    // 筛选数据
-    searchList () {
-      // 开启加载动画
-      this.loading = true
       // 创建一个参数对象
       let paramsObj = {}
       // 判断是否存在状态
@@ -228,27 +146,85 @@ export default {
         paramsObj.begin_pubdate = this.dateTime[0]
         paramsObj.end_pubdate = this.dateTime[1]
       }
-      // 获取所有搜索相关的属性
+      // 将加载状态改为 true
+      this.tableLoading = true
+      // 这个请求如果不带 token 返回 401
+      // 携带 token
       this.$http({
         url: '/articles',
-        methods: 'GET',
+        method: 'GET',
         params: {
           page: this.page,
           per_page: this.per_page,
           ...paramsObj
         }
       }).then(res => {
-        // console.log(res)
-        // 将数据保存
+        // 将数据源保存到 dataList 中
         this.dataList = res.results
-        this.total_count = res.total_count
-        //  关闭加载动画
-        this.loading = false
+        // 数据的总条数进行保存
+        this.totalCount = res.total_count
+        // 将加载状态改为 false
+        this.tableLoading = false
       })
+    },
+    // 获取频道数据
+    getChannels () {
+      // 请求服务器得到数据
+      this.$http({
+        url: '/channels',
+        method: 'GET'
+      }).then(res => {
+        // console.log(res)
+        this.channelsList = res.channels
+      })
+    },
+    // 删除文章列表数据
+    delArticle (id) {
+      this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送请求到服务器   :target 动态路由（标识着 target 并不是一个字符串，而是一个参数）
+        this.$http({
+          url: `/articles/${id}`,
+          method: 'DELETE' // put(POST) patch(POST) delete(GET)   GET POST
+        }).then(res => {
+          // 重新请求数据
+          this.getArticleList()
+          // console.log(res)
+          // 提示删除成功
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+        })
+      })
+    },
+    // 筛选数据
+    searchList () {
+      this.getArticleList()
     },
     // 进入修改文章页面
     update (id) {
       this.$router.push(`/article/edit/${id}`)
+    },
+    // 底部分页
+    // 用户点击上一页按钮改变当前页后触发
+    prevClick () {
+      this.page = this.page - 1
+      this.getArticleList()
+    },
+    // 用户点击下一页按钮改变当前页后触发
+    nextClick () {
+      this.page = this.page + 1
+      this.getArticleList()
+    },
+    // currentPage 改变时会触发
+    pageChange (page) {
+      // console.log('当前页码' + page)
+      this.page = page
+      this.getArticleList()
     }
   },
   // 生命周期钩子函数
