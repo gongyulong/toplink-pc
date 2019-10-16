@@ -43,7 +43,7 @@
           <span slot="title">粉丝列表</span>
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="4">
+      <el-menu-item index="/user">
         <span slot="title">帐户信息</span>
       </el-menu-item>
     </el-menu>

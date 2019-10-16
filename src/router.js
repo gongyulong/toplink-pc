@@ -20,6 +20,8 @@ import Article from '@/views/article/list'
 import Comment from '@/views/comment'
 // 导入material
 import Material from '@/views/material'
+// 导入User
+import User from '@/views/user'
 
 // 使用路由
 Vue.use(Router)
@@ -86,6 +88,11 @@ let router = new Router({
         {
           path: '/material',
           component: Material
+        },
+        // 添加一个 用户信息 的动态路由
+        {
+          path: '/user',
+          component: User
         }
       ]
     }
