@@ -93,6 +93,7 @@ export default {
       // 上传的请求头
       headers: {
         Authorization: `Bearer ${userInfo.token}`
+        // 不需要设置content-type 因为自己设置的会缺失boundary 参数
       },
       // 总条数
       totalCount: 0,

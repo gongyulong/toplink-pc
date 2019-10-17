@@ -1,7 +1,7 @@
 <template>
   <div class="appheader">
     <el-row>
-      <el-col :span="14">小牛科技</el-col>
+      <el-col :span="14">我的头条号</el-col>
       <el-col :offset="7" :span="3">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo">
@@ -9,10 +9,10 @@
             <span class="name">{{ userInfo.name }}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" split-button>
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>git地址</el-dropdown-item>
-            <el-dropdown-item >退出</el-dropdown-item>
+            <el-dropdown-item @click='userBack'>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -25,6 +25,11 @@ export default {
   data () {
     return {
       userInfo: {}
+    }
+  },
+  methods: {
+    userBack () {
+      console.log('退出')
     }
   },
   created () {
