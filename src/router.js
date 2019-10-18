@@ -4,27 +4,26 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // 导入useElement
 import UseElement from '@/views/useElement'
-// 导入router && home
-import Login from '@/views/login'
-import Home from '@/views/home'
-// 导入router && home
-import Layout from '@/views/layout'
-// 导入publish
-import Publish from '@/views/article/publish'
 // 导入nprogress
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+// 导入router && home
+const Login = () => import('@/views/login')
+const Home = () => import('@/views/home')
+// 导入router && home
+const Layout = () => import('@/views/layout')
+// 导入publish
+const Publish = () => import('@/views/article/publish')
 // 导入article
-import Article from '@/views/article/list'
+const Article = () => import('@/views/article/list')
 // 导入comment
-import Comment from '@/views/comment'
+const Comment = () => import('@/views/comment')
 // 导入material
-import Material from '@/views/material'
+const Material = () => import('@/views/material')
 // 导入User
-import User from '@/views/user'
+const User = () => import('@/views/user')
 // 导入Data
-import Data from '@/views/data'
-
+const Data = () => import('@/views/data')
 // 使用路由
 Vue.use(Router)
 
