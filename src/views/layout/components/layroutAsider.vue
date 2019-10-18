@@ -30,7 +30,7 @@
         <template slot="title">
           <span>粉丝管理</span>
         </template>
-        <el-menu-item index="3-1">
+        <el-menu-item index="/data">
           <span slot="title">图文数据</span>
         </el-menu-item>
         <el-menu-item index="3-2">

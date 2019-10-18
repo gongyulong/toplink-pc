@@ -22,6 +22,8 @@ import Comment from '@/views/comment'
 import Material from '@/views/material'
 // 导入User
 import User from '@/views/user'
+// 导入Data
+import Data from '@/views/data'
 
 // 使用路由
 Vue.use(Router)
@@ -93,6 +95,11 @@ let router = new Router({
         {
           path: '/user',
           component: User
+        },
+        // 添加一个 echart 的动态路由
+        {
+          path: '/data',
+          component: Data
         }
       ]
     }

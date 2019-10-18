@@ -35,7 +35,7 @@
               <!-- 边框图片 -->
               <img
                 class="myAdd"
-                :src="form.cover.images[index] ? form.cover.images[index] :'https://static.easyicon.net/preview/120/1205626.gif'"
+                :src="form.cover.images[index] ? form.cover.images[index] :'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3281196885,1779237671&fm=26&gp=0.jpg'"
                 alt
               />
             </div>
